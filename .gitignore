@@ -1,0 +1,13 @@
+apache-jmeter-*/**
+analysis/**
+data/**
+jmeter/**
+kieker-1.12/**
+org.iobserve.collector-0.0.*-SNAPSHOT/**
+visualizations/**
+results.csv
+kieker.log
+jmeter.log
+hosts.rc
+exp-results-*tgz
+
