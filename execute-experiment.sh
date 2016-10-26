@@ -139,12 +139,13 @@ echo "Initialize experiment environment"
 echo "---------------------------------"
 echo ""
 
-# deploy all services
-$DEPLOYMENT_SCRIPT deploy || cleanup $?
-
 # start collector
 $COLLECTOR -p $COLLECTOR_PORT -d $DATA_PATH &
 export COLLECTOR_PID=$!
+
+
+# deploy all services
+$DEPLOYMENT_SCRIPT deploy || cleanup $?
 
 # run jmeter initialization
 echo "Run jmeter for initialization ${HOST_TYPES[web]}"
@@ -167,6 +168,10 @@ $JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIV
 
 EXP_END_DATE=`date`
 
+$KUBE_ALLOCATION stop
+
+kill -TERM $COLLECTOR_PID
+
 #### create visualizations
 echo ""
 echo ""
@@ -180,8 +185,6 @@ $COMPILE_RESULTS_SCRIPT "$LOADDRIVER" || cleanup $?
 
 END_DATE=`date`
 
-kill -TERM $COLLECTOR_PID
-
 echo ""
 echo ""
 echo "------------------------------"
@@ -193,7 +196,5 @@ echo "Experiment end:   $EXP_END_DATE"
 echo "Complete:         $END_DATE"
 echo ""
 echo "Done."
-
-cleanup 0
 
 # end
