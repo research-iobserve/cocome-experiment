@@ -41,6 +41,7 @@ check $LOCAL_GLASSFISH_ADMIN "local glassfish installation"
 check $KIEKER_TRACE_ANALYSIS "kieker trace analysis"
 check $KIEKER_DOT_PIC_CONVERTER "kieker pic doc converter"
 check $COLLECTOR "data collector"
+check $PSQL "postgres client"
 check_rec $KUBE_ALLOCATION "kubernetes allocation script"
 check_rec $DEPLOYMENT_SCRIPT "deployment script"
 check_dir $DATA_PATH

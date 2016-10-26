@@ -1,16 +1,13 @@
 # experiment global configuration
 
 # base directory where all projects parts are located
-export BASE="$HOME/Projects/iObserve"
+export BASE="$HOME/Projects/iObserve/experiment-execution"
 
 # local glassfish installation location
 export LOCAL_GLASSFISH_ADMIN="$HOME/glassfish4/glassfish/bin/asadmin"
 
-# remote glassfish installation location
-export REMOTE_GLASSFISH_ADMIN="/opt/glassfish-4.0/glassfish/bin/asadmin"
-
 # jmeter executable
-export JMETER="$BASE/apache-jmeter-2.13/bin/jmeter"
+export JMETER="$BASE/apache-jmeter-3.0/bin/jmeter"
 
 # postgres client
 export PSQL="/usr/bin/psql"
@@ -23,19 +20,33 @@ export KIEKER_TRACE_ANALYSIS="$KIEKER_PATH/trace-analysis.sh"
 export KIEKER_DOT_PIC_CONVERTER="$KIEKER_PATH/dotPic-fileConverter.sh"
 
 # local glassfish 
-export LOCAL_GLASSFISH_PW_FILE="$BASE/passwordfile"
-# remote host login
-export REMOTE_GLASSFISH_LOGIN="glassfish"
+export LOCAL_GLASSFISH_PW_FILE="$BASE/pwfile"
 # admin login for glassfish
 export GLASSFISH_ADMIN_LOGIN="admin"
 
-# database
+## kubernetes setup
+# kubernetes server name
+KUBE_SERVER="nc05"
+# kube ctl
+KUBECTL="$HOME/bin/kubectl"
+# kubernetes instances
+KUBE_NODE_TYPES="web registry store enterprise adapter database"
+
+declare -A IMAGE
+IMAGE[web]="reiner/glassfish"
+IMAGE[store]="reiner/glassfish"
+IMAGE[registry]="reiner/glassfish"
+IMAGE[enterprise]="reiner/glassfish"
+IMAGE[adapter]="reiner/glassfish"
+IMAGE[database]="postgres-cocome"
+
+## database
 export DBUSER="cocome"
 export DBPASSWORD="dbuser"
 export DBNAME="cocomedb"
 
 # local storage
-export DATA_PATH="/data/cocome"
+export DATA_PATH="$BASE/data"
 # analysis result
 export OUTPUT_PATH="$BASE/analysis"
 # visualitazions
@@ -43,7 +54,6 @@ export VISUALIZATION_PATH="$BASE/visualizations"
 
 # CoCoME initialization script
 export INIT_COCOME="$BASE/jmeter/initialize.jmx"
-
 
 declare -A HOST_TYPES
 declare -A CONTAINER
@@ -53,12 +63,7 @@ declare -A DOMAINS
 declare -A PORTS
 
 # declare HOSTS TYPES and HOST INSTANCES
-HOST_TYPES[web]="192.168.48.206"
-HOST_TYPES[store]="192.168.48.236"
-HOST_TYPES[registry]=${HOST_TYPES[store]}
-HOST_TYPES[enterprise]="192.168.48.232"
-HOST_TYPES[adapter]="192.168.48.224"
-HOST_TYPES[database]="192.168.48.229"
+. ./hosts.rc
 
 # declare containers
 CONTAINER[web]="cloud-web-frontend"
@@ -89,10 +94,14 @@ DEPENDS_ON[web]=""
 DEPENDS_ON[adapter]=""
 
 # container location and revision setup
-LOCATIONS[1]="platform-migration/cocome-maven-project"
-LOCATIONS[2]="service-adapter"
+LOCATIONS[1]="../platform-migration/cocome-maven-project"
+LOCATIONS[2]="../service-adapter"
 
 REVISION="1.1"
+
+# data collector
+COLLECTOR="$BASE/org.iobserve.collector-0.0.2-SNAPSHOT/bin/org.iobserve.collector"
+COLLECTOR_PORT=9876
 
 # end
 

@@ -41,7 +41,7 @@ function isDeployed() {
 	ip="$1"
 	container="${CONTAINER[$2]}"
 	port="${PORTS[${DOMAINS[$2]}]}"
-	result=`"$LOCAL_GLASSFISH_ADMIN" --host "$ip" -p "$port" --user "$GLASSFISH_ADMIN_LOGIN" -W ${LOCAL_GLASSFISH_PW_FILE} list-applications | grep "$container-$REVISION"`
+	result=`"$LOCAL_GLASSFISH_ADMIN" --host "$ip" -p "$port" --user "$GLASSFISH_ADMIN_LOGIN" -W "${LOCAL_GLASSFISH_PW_FILE}" list-applications | grep "$container-$REVISION"`
 	if [ "$result" == "" ] ; then
 		return 1
 	else
@@ -59,7 +59,7 @@ function undeploy() {
 	if isDeployed $1 $2 ; then
 		echo "Undeploy from $ip: $2 ($container)"
 		"$LOCAL_GLASSFISH_ADMIN" --host "$ip" -p $port --user "$GLASSFISH_ADMIN_LOGIN" \
-			-W ${LOCAL_GLASSFISH_PW_FILE} undeploy "$container-$REVISION"
+			-W "${LOCAL_GLASSFISH_PW_FILE}" undeploy "$container-$REVISION"
 	else
 		echo "Already undeployed from $ip: $2 ($container)"
 	fi

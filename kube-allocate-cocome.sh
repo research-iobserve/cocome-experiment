@@ -22,10 +22,11 @@ BUILD_SETTINGS="$BINDIR/docker-settings.xml"
 BUILD_SETTINGS_TEMPLATE="$BINDIR/docker-settings.xml.template"
 
 # check setup
-check_file $BUILD_SETTINGS_TEMPLATE r
-check_file $BUILD_SETTINGS w
+check_file $BUILD_SETTINGS_TEMPLATE r "build settings template"
+check_file $BUILD_SETTINGS w "build settings"
 check $KUBECTL "kubectl not found"
 check $LOCAL_GLASSFISH_ADMIN "local glassfish installation"
+check_file $LOCAL_GLASSFISH_PW_FILE r "glassfish password file"
 
 if [ "$1" == "start" ] ; then
 	declare -A IPS
@@ -59,11 +60,9 @@ if [ "$1" == "start" ] ; then
 	# connect nodes
 	echo "Configuring adapter node ${IPS[adapter]} ..."
 
-	echo "AS_ADMIN_PASSWORD=admin" > pwfile
-
 	retries=0
 
-	while ! $LOCAL_GLASSFISH_ADMIN --user admin --passwordfile pwfile --host ${IPS[adapter]} list-applications >& /dev/null ; do
+	while ! $LOCAL_GLASSFISH_ADMIN --user admin --passwordfile $LOCAL_GLASSFISH_PW_FILE --host ${IPS[adapter]} list-applications >& /dev/null ; do
 		echo "Adapter not up and running. Waiting 5 seconds ..."
 		sleep 5
 		retries=`expr $retries + 1`
@@ -78,12 +77,12 @@ if [ "$1" == "start" ] ; then
 		fi
 	done
 
-	$LOCAL_GLASSFISH_ADMIN --user admin --passwordfile pwfile --host ${IPS[adapter]} --interactive=false \
+	$LOCAL_GLASSFISH_ADMIN --user admin --passwordfile $LOCAL_GLASSFISH_PW_FILE --host ${IPS[adapter]} --interactive=false \
 		create-jdbc-connection-pool \
 		--datasourceclassname org.postgresql.ds.PGSimpleDataSource \
 		--restype javax.sql.DataSource --property user=cocome:password=dbuser:servername=${IPS[database]}:databasename=cocomedb PostgresPool
 
-	$LOCAL_GLASSFISH_ADMIN --user admin --passwordfile pwfile --host ${IPS[adapter]} --interactive=false \
+	$LOCAL_GLASSFISH_ADMIN --user admin --passwordfile $LOCAL_GLASSFISH_PW_FILE --host ${IPS[adapter]} --interactive=false \
 		create-jdbc-resource --connectionpoolid PostgresPool jdbc/CoCoMEDB
 
 	echo "Configuring build files"
