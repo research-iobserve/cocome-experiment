@@ -143,7 +143,8 @@ echo ""
 $DEPLOYMENT_SCRIPT deploy || cleanup $?
 
 # start collector
-$COLLECTOR -p $COLLECTOR_PORT -d $DATA_PATH || cleanup $? &
+$COLLECTOR -p $COLLECTOR_PORT -d $DATA_PATH &
+export COLLECTOR_PID=$!
 
 # run jmeter initialization
 echo "Run jmeter for initialization ${HOST_TYPES[web]}"
@@ -178,6 +179,8 @@ $ANALYSIS_SCRIPT || cleanup $?
 $COMPILE_RESULTS_SCRIPT "$LOADDRIVER" || cleanup $?
 
 END_DATE=`date`
+
+kill -TERM $COLLECTOR_PID
 
 echo ""
 echo ""
