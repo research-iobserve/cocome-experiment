@@ -143,6 +143,7 @@ echo ""
 $COLLECTOR -p $COLLECTOR_PORT -d $DATA_PATH &
 export COLLECTOR_PID=$!
 
+sleep 5
 
 # deploy all services
 $DEPLOYMENT_SCRIPT deploy || cleanup $?
