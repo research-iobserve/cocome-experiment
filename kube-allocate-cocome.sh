@@ -62,7 +62,7 @@ if [ "$1" == "start" ] ; then
 
 	retries=0
 
-	while ! $LOCAL_GLASSFISH_ADMIN --user admin --passwordfile $LOCAL_GLASSFISH_PW_FILE --host ${IPS[adapter]} list-applications >& /dev/null ; do
+	while ! $LOCAL_GLASSFISH_ADMIN --user admin --passwordfile $LOCAL_GLASSFISH_PW_FILE --host ${IPS[adapter]} list-applications ; do
 		echo "Adapter not up and running. Waiting 5 seconds ..."
 		sleep 5
 		retries=`expr $retries + 1`
