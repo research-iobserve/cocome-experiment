@@ -56,14 +56,15 @@ it is preconfigured to be used as database for CoCoME.
 The docker images can be found in the `docker-images` repository.
 Checkout the `docker-images` repository.
 
-a) Change to `cocome-glassfish`
-b) Run `docker build -t reiner/glassfish .`
-c) Change to `cocome-postgres`
-d) Run `docker build -t reiner/cocome-postgres .`
+1. Change to `cocome-glassfish`
+2. Run `docker build -t reiner/glassfish .`
+3. Change to `cocome-postgres`
+4. Run `docker build -t reiner/cocome-postgres .`
 
 ## Uploading images to private repository
 
 a) Collect the server certs from your private docker repository server
+
 b) Create a local directory for the certs (you need root privileges)
    ```
    sudo mkdir -p /etc/docker/certs.d/
