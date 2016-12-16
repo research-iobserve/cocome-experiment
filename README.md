@@ -1,36 +1,54 @@
 # How to execute an experiment
 
+This documentation refers to a Kubernetes setup. An alternative documentation
+usable with docker and with less automation can be found in
+`how-to-prepare-the-experiment.md`
 ## Prerequisites
 
-- An installed kubectl program
-- A local copy of glassfish 4.1.1
-- Local docker installation
+- Install `kubectl` (see http://kubernetes.io/docs/user-guide/prereqs/)
+- A local copy of glassfish 4.1.1+ (https://glassfish.java.net/download.html)
+- Local docker installation 1.12.2+
+- gradle 2.13 
+- Maven
+- Graphviz
+- Kieker 1.13-SNAPSHOT (1.12 may work too)
+- Java 8 to be able to compile all of the iObserve stuff
 - JMeter 3.0
-  Note: The loaddriver models for jmeter MUST use the property
+  **Note:** The loaddriver models for jmeter MUST use the property
         frontendIP to set the IP address of the frontend.
-- The TCP endpoint for Kieker TCP-probes from 
-  `iobserve-analysis/org.iobserve.collector`.
-  - To get this collector, execute `gradle build` in 
-    `iobserve-analysis`.
-  - After the build go to the `experiment-execution` directory.
-  - Unpack the distribution archive with
-    `tar -xvpf ../iobserve-analysis/org.iobserve.collector/build/distributions/org.iobserve.collector-0.0.2-SNAPSHOT.tar`
-    Note, depending on your checkout location you must adapt this path.
-  - Check that the `global-config.rc` COLLECTOR is pointing to the
-    correct script.
+        
+## Compiling iObserve Kieker add-ons and Analysis
+
+The iObserve analysis package is required to provide specific probes for CoCoME
+and provide the necessary tooling to log and aggregate data including the
+TCP endpoint for the logging.
+
+```
+git clone https://github.com/research-iobserve/iobserve-analysis.git
+git clone https://github.com/research-iobserve/iobserve-repository.git
+```
+The TCP endpoint for Kieker TCP-probes is located in
+`iobserve-analysis/org.iobserve.collector`. The probes and records are located in
+`iobserve-analysis/org.iobserve.monitoring` and `iobserve-analysis/org.iobserve.common`,
+respectively.
+- To get the probes, records and the collector, execute `gradle build` in 
+  `iobserve-analysis`.
+- After the build go to the `experiment-execution` directory.
+- Unpack the distribution archive with
+  `tar -xvpf ../iobserve-analysis/org.iobserve.collector/build/distributions/org.iobserve.collector-0.0.2-SNAPSHOT.tar`
+  **Note:** depending on your checkout location you must adapt this path.
+- Check that the `global-config.rc` COLLECTOR variable is pointing to the
+  correct script.
     
-## Example parameter
+## Global configuration parameters (example excerpt)
 
-`REPO_HOST=blade1.se.internal:5000`
-This is the host of the private docker repository. It is located on
+- `REPO_HOST=blade1.se.internal:5000` This is the host of the private docker repository. It is located on
 `blade1.se.internal` and can be accessed via port 5000.
-
-`GLASSFISH_IMAGE=reiner/glassfish`
-Our glassfish image is labeled reiner/glassfish you may choose another
+- `GLASSFISH_IMAGE=reiner/glassfish`
+Our glassfish image is labeled `reiner/glassfish` you may choose another
 label for your setup.
-
-`POSTGRES_IMAGE=postgres-cocome`
-We use as label for the postgresql image the label `postgres-cocome` as
+- `POSTGRES_IMAGE=reiner/postgres-cocome`
+We use as label for the postgresql image the label `reiner/postgres-cocome` as
 it is preconfigured to be used as database for CoCoME.
 
 ## Creating docker images
@@ -41,26 +59,39 @@ Checkout the `docker-images` repository.
 a) Change to `cocome-glassfish`
 b) Run `docker build -t reiner/glassfish .`
 c) Change to `cocome-postgres`
-d) Run `docker build -t cocome-postgres .`
+d) Run `docker build -t reiner/cocome-postgres .`
 
 ## Uploading images to private repository
 
 a) Collect the server certs from your private docker repository server
 b) Create a local directory for the certs (you need root privileges)
-   `sudo mkdir -p /etc/docker/certs.d/`
+   ```
+   sudo mkdir -p /etc/docker/certs.d/
+   ```
 c) Create a directory for the specific docker domain, e.g.,
-   `sudo mkdir -p /etc/docker/certs.d/$REPO_HOST`
-   Note, the port number is included in the directory name.
+   ```
+   sudo mkdir -p /etc/docker/certs.d/$REPO_HOST
+   ```
+   **Note:** the port number is included in the directory name.
+  
 d) Copy the cert to this directory
-   `sudo cp blade1.se.internal.crt /etc/docker/certs.d/$REPO_HOST/ca.crt`
+   ```
+   sudo cp blade1.se.internal.crt /etc/docker/certs.d/$REPO_HOST/ca.crt
+   ```
 e) Restart docker
-   `sudo service docker restart`
+   ```
+   sudo service docker restart
+   ```
 f) Tag the image to the private docker repository
-   `docker tag $GLASSFISH_IMAGE $REPO_HOST$GLASSFISH_IMAGE`
-   `docker tag $POSTGRES_IMAGE $REPO_HOST$POSTGRS_IMAGE`
+   ```
+   docker tag $GLASSFISH_IMAGE $REPO_HOST$GLASSFISH_IMAGE
+   docker tag $POSTGRES_IMAGE $REPO_HOST$POSTGRS_IMAGE
+   ```
 g) Push the images
-   `docker push $REPO_HOST$GLASSFISH_IMAGE`
-   `docker push $REPO_HOST$POSTGRES_IMAGE`
+   ```
+   docker push $REPO_HOST$GLASSFISH_IMAGE
+   docker push $REPO_HOST$POSTGRES_IMAGE
+   ```
 
 ## Configuring the experiment
 
@@ -84,6 +115,7 @@ names can differ from this example.
     + Recording Controller "Purchase Controller"
 
 The Testplan must contain the following paramters:
+```
 web.host             ${__P(frontendIP)}
 web.port             8080
 product.barcode      123456
@@ -93,6 +125,7 @@ store.id             2
 cashier.username     cashier
 cashier.password     cashier
 base.url             cloud-web-frontend
+```
 
 ## Ensure clean directory structure
 
@@ -121,4 +154,7 @@ deployments and replicators present, you can start the experiment.
 
 ## The experiment compiles
 
-
+During the execution, the script asks you to check and acknowledge the
+completion of experiemtn tasks. After execution the experiment has
+produced a tar file containing the collected monitoring data and example
+images generated with the Kieker analysis tool.
