@@ -1,11 +1,12 @@
 # How to execute an experiment
 
-This documentation refers to a Kubernetes setup. An alternative documentation
-usable with docker and with less automation can be found in
-`how-to-prepare-the-experiment.md`
+The experiment execution script support docker and kubernetes at the
+moment. It may support other system later as well.
+
 ## Prerequisites
 
-- Install `kubectl` (see http://kubernetes.io/docs/user-guide/prereqs/)
+- If you plan to use kubernetes
+  - Install `kubectl` (see http://kubernetes.io/docs/user-guide/prereqs/)
 - A local copy of glassfish 4.1.1+ (https://glassfish.java.net/download.html)
 - Local docker installation 1.12.2+
 - gradle 2.13 
@@ -39,21 +40,35 @@ respectively.
   **Note:** depending on your checkout location you must adapt this path.
 - Check that the `global-config.rc` COLLECTOR variable is pointing to the
   correct script.
+
+
+## Further reading
+
+Please also consult the `how-to-prepare-the-experiment.md` file.
     
 ## Global configuration parameters (example excerpt)
 
-- `REPO_HOST=blade1.se.internal:5000` This is the host of the private docker repository. It is located on
-`blade1.se.internal` and can be accessed via port 5000.
-- `GLASSFISH_IMAGE=reiner/glassfish`
-Our glassfish image is labeled `reiner/glassfish` you may choose another
+We use the following example parameter throughout this README. You may
+use other values for them if necessary. However, you might need to
+reconfigure other parts as well.
+
+`REPO_HOST=blade1.se.internal:5000`
+This is the host of the private docker repository which is accessible
+by docker and kubernetes. It is located on `blade1.se.internal` and can
+be accessed via port 5000.
+
+`GLASSFISH_IMAGE=reiner/glassfish`
+Our glassfish image is labeled reiner/glassfish you may choose another
 label for your setup.
-- `POSTGRES_IMAGE=reiner/postgres-cocome`
+
+`POSTGRES_IMAGE=reiner/postgres-cocome`
 We use as label for the postgresql image the label `reiner/postgres-cocome` as
 it is preconfigured to be used as database for CoCoME.
 
 ## Creating docker images
 
-The docker images can be found in the `docker-images` repository.
+The docker images can be found in the `docker-images` repository of the
+iobserve project.
 Checkout the `docker-images` repository.
 
 1. Change to `cocome-glassfish`
@@ -62,6 +77,9 @@ Checkout the `docker-images` repository.
 4. Run `docker build -t reiner/cocome-postgres .`
 
 ## Uploading images to private repository
+
+In case you are using docker and want to use it on your local machine,
+you do not need to perform these steps.
 
 a) Collect the server certs from your private docker repository server
 
@@ -155,7 +173,9 @@ deployments and replicators present, you can start the experiment.
 
 ## The experiment compiles
 
+
 During the execution, the script asks you to check and acknowledge the
-completion of experiemtn tasks. After execution the experiment has
+completion of experiment tasks. After execution the experiment has
 produced a tar file containing the collected monitoring data and example
 images generated with the Kieker analysis tool.
+

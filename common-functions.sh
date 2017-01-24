@@ -15,6 +15,20 @@ function check_rec () {
 	fi
 }
 
+function check_rec_param () {
+	if [ -f "$1" ] ; then
+		if [ -x "$1" ] ; then
+			$1 $2 check
+		else
+			echo "$2 program '$1' is not executable."
+			exit 1
+		fi
+	else
+		echo "$2 program '$1' not found."
+		exit 1
+	fi
+}
+
 # $1 = program
 # $2 = name
 function check () {

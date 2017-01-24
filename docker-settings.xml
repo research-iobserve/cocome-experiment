@@ -10,7 +10,7 @@
 				<!-- registry node deployment configuration -->
 				<logic.registry.protocol>http</logic.registry.protocol>
 				<logic.registry.domain>cocome</logic.registry.domain>
-				<logic.registry.host>172.16.87.2</logic.registry.host>
+				<logic.registry.host>172.17.0.3</logic.registry.host>
 				<logic.registry.httpPort>8080</logic.registry.httpPort>
 				<logic.registry.adminPort>4848</logic.registry.adminPort>
 				<logic.registry.user>admin</logic.registry.user>
@@ -22,7 +22,7 @@
 				<!-- store node deployment configuration -->
 				<logic.store.protocol>http</logic.store.protocol>
 				<logic.store.domain>cocome</logic.store.domain>
-				<logic.store.host>172.16.41.3</logic.store.host>
+				<logic.store.host>172.17.0.4</logic.store.host>
 				<logic.store.httpPort>8080</logic.store.httpPort>
 				<logic.store.adminPort>4848</logic.store.adminPort>
 				<logic.store.user>admin</logic.store.user>
@@ -34,7 +34,7 @@
 				<!--  enterprise node deployment configuration -->
 				<logic.enterprise.protocol>http</logic.enterprise.protocol>
 				<logic.enterprise.domain>cocome</logic.enterprise.domain>
-				<logic.enterprise.host>172.16.55.2</logic.enterprise.host>
+				<logic.enterprise.host>172.17.0.5</logic.enterprise.host>
 				<logic.enterprise.httpPort>8080</logic.enterprise.httpPort>
 				<logic.enterprise.adminPort>4848</logic.enterprise.adminPort>
 				<logic.enterprise.user>admin</logic.enterprise.user>
@@ -43,7 +43,7 @@
 		
 				<!-- web node deployment configuration -->	
 				<web.domain>cocome</web.domain>
-				<web.host>172.16.96.2</web.host>
+				<web.host>172.17.0.2</web.host>
 				<web.httpPort>8080</web.httpPort>
 				<web.adminPort>4848</web.adminPort>
 				<web.user>admin</web.user>
@@ -51,7 +51,7 @@
 		
 				<!-- service adapter node deployment configuration -->
 				<serviceadapter.protocol>http</serviceadapter.protocol>
-				<serviceadapter.host>172.16.96.3</serviceadapter.host>
+				<serviceadapter.host>172.17.0.6</serviceadapter.host>
 				<serviceadapter.httpPort>8080</serviceadapter.httpPort>
 				<serviceadapter.adminPort>4848</serviceadapter.adminPort>
 				<serviceadapter.user>admin</serviceadapter.user>

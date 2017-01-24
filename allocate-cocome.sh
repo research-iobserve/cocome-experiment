@@ -21,41 +21,45 @@ fi
 BUILD_SETTINGS="$BINDIR/docker-settings.xml"
 BUILD_SETTINGS_TEMPLATE="$BINDIR/docker-settings.xml.template"
 
+# check parameter
+if [ "$1" == "" ] ; then
+	echo "$0 <kube|docker> <start|stop|check|status>"
+	exit 1
+fi
+
+# info
+echo "$1 deployments"
+
+# global variables
+declare -A IPS
+declare -A IDS
+
 # check setup
 check_file $BUILD_SETTINGS_TEMPLATE r "build settings template"
 check_file $BUILD_SETTINGS w "build settings"
-check $KUBECTL "kubectl not found"
 check $LOCAL_GLASSFISH_ADMIN "local glassfish installation"
 check_file $LOCAL_GLASSFISH_PW_FILE r "glassfish password file"
+check_file "$1.inc" r "specific container control routines"
 
-if [ "$1" == "start" ] ; then
-	declare -A IPS
+. $BINDIR/$1.inc
 
+# main program
+
+if [ "$2" == "start" ] ; then
 	# run docker images
 	echo "Starting services ..."
 
-	for SERVER in $KUBE_NODE_TYPES ; do
-		IMAGE_NAME="blade1.se.internal:5000/${IMAGE[$SERVER]}"
-		$KUBECTL --cluster $KUBE_SERVER run "$SERVER" --image=$IMAGE_NAME
-
-		IP="<none>"
-
-		while [ "$IP" == "<none>" ] ; do
-			IP=`$KUBECTL --cluster "$KUBE_SERVER" get pods -o wide | grep "$SERVER" | awk '{ print $6 }'`
-			if [ "$IP" == "<none>" ] ; then
-				sleep 5
-			else
-				IPS[$SERVER]=$IP
-			fi
-		done
+	for SERVER in $NODE_TYPES ; do
+		start_service "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"
+		get_container_ip_address
 	done
 
 	# setup build settings
 	echo "List IPS ..."
 	for IP_KEY in "${!IPS[@]}" ; do
-        	IP=${IPS[$IP_KEY]}
+		IP=${IPS[$IP_KEY]}
 		echo "$IP $IP_KEY"
-        done
+	done
 
 	# connect nodes
 	echo "Configuring adapter node ${IPS[adapter]} ..."
@@ -68,11 +72,7 @@ if [ "$1" == "start" ] ; then
 		retries=`expr $retries + 1`
 		if [ "$retries" == "10" ] ; then
 			echo "Allocation unsuccessful"
-
-			for SERVER in $KUBE_NODE_TYPES ; do
-		                $KUBECTL --cluster nc05 delete deployments "$SERVER"
-		        done
-
+			stop_services
 			exit
 		fi
 	done
@@ -118,18 +118,20 @@ if [ "$1" == "start" ] ; then
 	echo "HOST_TYPES[database]=\"${IPS[database]}\"" >> $BINDIR/hosts.rc
 
 	echo "Done."
-elif [ "$1" == "stop" ] ; then
+elif [ "$2" == "stop" ] ; then
 	echo "Stopping container ..."
 
-	for SERVER in $KUBE_NODE_TYPES ; do
-		$KUBECTL --cluster nc05 delete deployments "$SERVER"
-	done
+	detect_running_nodes
+
+	stop_services
 
 	echo "Done."
-elif [ "$1" == "check" ] ; then
+elif [ "$2" == "check" ] ; then
 	echo "$0 check successful"
+elif [ "$2" == "status" ] ; then
+	echo "$0 status"
 else
-	echo "$0 <start|stop|check>"
+	echo "$0 <start|stop|check|status> <kube|docker>"
 fi
 
 # end

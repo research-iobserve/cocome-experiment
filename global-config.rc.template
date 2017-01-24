@@ -28,9 +28,18 @@ export GLASSFISH_ADMIN_LOGIN="admin"
 # kubernetes server name
 KUBE_SERVER="nc05"
 # kube ctl
-KUBECTL="$HOME/bin/kubectl"
-# kubernetes instances
-KUBE_NODE_TYPES="web registry store enterprise adapter database"
+KUBE_CTL="$HOME/bin/kubectl"
+
+## docker setup
+# docker server name
+DOCKER_SERVER="localhost"
+# docker ctl
+DOCKER_CTL="/usr/bin/docker"
+# docker repository (used by kube and docker)
+DOCKER_REPOSITORY="blade1.se.internal:5000"
+
+# node instances
+NODE_TYPES="web registry store enterprise adapter database"
 
 declare -A IMAGE
 IMAGE[web]="reiner/glassfish"

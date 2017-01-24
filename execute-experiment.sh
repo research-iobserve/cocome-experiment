@@ -20,10 +20,36 @@ else
 	. "$BINDIR/common-functions.sh"
 fi
 
-KUBE_ALLOCATION="$BINDIR/kube-allocate-cocome.sh"
+NODE_ALLOCATION="$BINDIR/allocate-cocome.sh"
 DEPLOYMENT_SCRIPT="$BINDIR/deployment.sh"
 ANALYSIS_SCRIPT="$BINDIR/run-analysis.sh"
 COMPILE_RESULTS_SCRIPT="$BINDIR/compile-results.sh"
+
+
+#
+# test input parameters
+if [ "$1" == "docker" ] ; then
+	VIRT_MODE="docker"
+elif [ "$1" == "kube" ] ; then
+	VIRT_MODE="kube"
+else
+	echo "Only docker and kube are allowed as virtualization modes. Mode $1 unknown"
+	exit 1
+fi
+
+# test if we have a jmeter script
+if [ "$2" != "" ] ; then
+	if [ -f "$2" ] ; then
+		export LOADDRIVER="$2"
+		echo "Load driver: $LOADDRIVER"
+	else
+		echo "$2 is not a file."
+		exit 1
+	fi
+else
+	echo "Missing parameter: jmeter file."
+	exit 1
+fi
 
 echo "------------------------------"
 echo "Check setup"
@@ -42,7 +68,7 @@ check $KIEKER_TRACE_ANALYSIS "kieker trace analysis"
 check $KIEKER_DOT_PIC_CONVERTER "kieker pic doc converter"
 check $COLLECTOR "data collector"
 check $PSQL "postgres client"
-check_rec $KUBE_ALLOCATION "kubernetes allocation script"
+check_rec_param $NODE_ALLOCATION $VIRT_MODE "allocation script"
 check_rec $DEPLOYMENT_SCRIPT "deployment script"
 check_dir $DATA_PATH
 check_dir $OUTPUT_PATH
@@ -51,26 +77,9 @@ check_dir $VISUALIZATION_PATH
 #
 # cleanup function in case the experiment setup fails.
 function cleanup () {
-	$KUBE_ALLOCATION stop
+	$NODE_ALLOCATION $VIRT_MODE stop
 	exit $1
 }
-
-#
-# test input parameters
-
-# test if we have a jmeter script
-if [ "$1" != "" ] ; then
-	if [ -f "$1" ] ; then
-		export LOADDRIVER="$1"
-		echo "Load driver: $LOADDRIVER"
-	else
-		echo "$1 is not a file."
-		exit 1
-	fi
-else
-	echo "Missing parameter: jmeter file."
-	exit 1
-fi
 
 #### prepare experiment
 echo ""
@@ -86,16 +95,16 @@ read
 
 # stop still running nodes
 echo "Stopping nodes from previous setups"
-$KUBE_ALLOCATION stop
+$NODE_ALLOCATION $VIRT_MODE stop
 echo "We must wait for all nodes to have stopped."
-echo "Check your kubernetes console that this really is the case."
+echo "Check your kubernetes console/docker ps that this really is the case."
 echo "Press return to continue"
 read
 echo ""
 
-# start kube nodes
+# start nodes
 echo "Start nodes for this setup"
-$KUBE_ALLOCATION start || exit $?
+$NODE_ALLOCATION $VIRT_MODE start || exit $?
 
 # reload host rc setup
 echo "Reload host configuration"
@@ -169,7 +178,7 @@ $JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIV
 
 EXP_END_DATE=`date`
 
-$KUBE_ALLOCATION stop
+$NODE_ALLOCATION $VIRT_MODE stop
 
 kill -TERM $COLLECTOR_PID
 
