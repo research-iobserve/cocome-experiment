@@ -2,6 +2,8 @@
 
 The experiment execution script support docker and kubernetes at the
 moment. It may support other system later as well.
+**Note:** Some activities are only necessary when using kubernetes or
+using a non local docker repository.
 
 ## Prerequisites
 
@@ -28,6 +30,7 @@ TCP endpoint for the logging.
 git clone https://github.com/research-iobserve/iobserve-analysis.git
 git clone https://github.com/research-iobserve/iobserve-repository.git
 ```
+
 The TCP endpoint for Kieker TCP-probes is located in
 `iobserve-analysis/org.iobserve.collector`. The probes and records are located in
 `iobserve-analysis/org.iobserve.monitoring` and `iobserve-analysis/org.iobserve.common`,
@@ -71,15 +74,75 @@ The docker images can be found in the `docker-images` repository of the
 iobserve project.
 Checkout the `docker-images` repository.
 
-1. Change to `cocome-glassfish`
-2. Run `docker build -t reiner/glassfish .`
-3. Change to `cocome-postgres`
-4. Run `docker build -t reiner/cocome-postgres .`
+Change to the directory `docker-images`.
+
+This directory should contain one `cocome-glassfish` and one
+`cocome-postgres` directory for the two docker images we use.
+
+Change to `cocome-glassfish`
+
+The glassfish docker container is supplied with a Kieker configuration
+file `kieker.monitoring.properties`. To support monitoring, you need to
+adjust this file to your needs. As it is not very helpful to log to
+a docker container (all is lost after termination), it is better to
+write all logging information to a remote host. In our case this is
+`192.168.48.222`. For your installation you must choose (most likely)
+another IP address or hostname. The address or hostname must be the host
+where you execute the `execute-experiment.sh` script or in case you
+perform operations by hand, where you run the collector program.
+
+Please edit the line
+`kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=192.168.48.222`
+according to your setup.
+
+**Note:** In case you changed the port for the collector, you must
+change the port property as well.
+
+Now build the glassfish image. Use the following line and replace 
+`PREFIX` with your name or any other identifier that help you to find
+your image later on.
+
+`docker build -t reiner/glassfish .`
+
+This will create a new docker image for glassfish.
+
+Last line should look like this
+
+`Successfully built f2d841e58f69`
+
+Type
+
+`docker images`
+
+and check if your `reiner/glassfish` is listed.
+
+Now continue with the postgres docker image.
+
+`cd ../cocome-postgres`
+
+This docker image configuration contains a minimal db setup script
+where we create a database `cocomedb`, a user `cocome` with a password
+`dbuser`.
+
+You may change this, but this requires other modifications later (which
+is not covered in this how to) in the service-adapter. 
+
+Create the image with
+
+`docker build -t PREFIX/postgres .`
+
+The last output line should be
+
+`Successfully built 596adb192baf`
+
+Check whether the image is available with
+
+`docker images`
 
 ## Uploading images to private repository
 
-In case you are using docker and want to use it on your local machine,
-you do not need to perform these steps.
+**Note:** In case you are using docker and want to use it on your local
+machine, you do not need to perform these steps.
 
 a) Collect the server certs from your private docker repository server
 

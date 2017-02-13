@@ -1,5 +1,12 @@
 # How To Prepare the Experiment
 
+The README.md is the more recent documentation. We keep this file only
+for the time being, as it still contains some extra information. In
+case information is in conflict, please rely on the README.md file.
+
+Furthermore, this documentation describes how to perform the execution
+of the experiment by hand.
+
 ## Prerequisites
 
 You need
