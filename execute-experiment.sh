@@ -78,6 +78,7 @@ check_dir $VISUALIZATION_PATH
 # cleanup function in case the experiment setup fails.
 function cleanup () {
 	$NODE_ALLOCATION $VIRT_MODE stop
+	kill -TERM $COLLECTOR_PID
 	exit $1
 }
 
