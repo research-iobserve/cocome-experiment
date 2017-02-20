@@ -121,7 +121,7 @@ for HOST_KEY in "${!HOST_TYPES[@]}" ; do
 		else
 			echo "$HOST missing -- retry"
 			sleep 10
-			
+
 			if ping "$HOST" -c 1 >& /dev/null ; then 
 				echo "$HOST available"
 			else
