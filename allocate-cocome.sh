@@ -50,7 +50,11 @@ if [ "$2" == "start" ] ; then
 	echo "Starting services ..."
 
 	for SERVER in $NODE_TYPES ; do
-		start_service "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"
+		if [ "{DOCKER_REPOSITORY}" == "" ] ; then
+			start_service "{$IMAGE[$SERVER]}"
+		else
+			start_service "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"
+		fi
 		get_container_ip_address
 	done
 

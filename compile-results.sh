@@ -5,6 +5,8 @@
 # get present directory
 PRESENT=$PWD
 
+INTERACTIVE="no"
+
 BINDIR=$(cd "$(dirname "$0")"; pwd)/
 
 # global initialization
@@ -12,12 +14,14 @@ if [ ! -f "$BINDIR/global-config.rc" ] ; then
 	echo "Missing global-config.rc Cannot execute $0 script."
 	exit 1
 else
-	. "$BINDIR/global-config.rc"	
+	. "$BINDIR/global-config.rc"
 fi
 
 if [ ! -f "$1" ] ; then
-	echo "Missing experiment file."
-	exit 1
+	echo "No experiment file."
+	INTERACTIVE="yes"
+	export EXPERIMENT_FILE="interactive"
+	export EXPERIMENT_NAME="interactive"
 else
 	export EXPERIMENT_FILE="$1"
 	export EXPERIMENT_NAME=`basename "$EXPERIMENT_FILE"`

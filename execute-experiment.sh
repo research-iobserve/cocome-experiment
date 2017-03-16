@@ -25,6 +25,7 @@ DEPLOYMENT_SCRIPT="$BINDIR/deployment.sh"
 ANALYSIS_SCRIPT="$BINDIR/run-analysis.sh"
 COMPILE_RESULTS_SCRIPT="$BINDIR/compile-results.sh"
 
+INTERACTIVE="no"
 
 #
 # test input parameters
@@ -47,8 +48,8 @@ if [ "$2" != "" ] ; then
 		exit 1
 	fi
 else
-	echo "Missing parameter: jmeter file."
-	exit 1
+	echo "Missing parameter: jmeter file running interactive"
+	INTERACTIVE="yes"
 fi
 
 echo "------------------------------"
@@ -153,14 +154,14 @@ echo ""
 $COLLECTOR -p $COLLECTOR_PORT -d $DATA_PATH &
 export COLLECTOR_PID=$!
 
-sleep 5
+sleep 15
 
 # deploy all services
 $DEPLOYMENT_SCRIPT deploy || cleanup $?
 
 # run jmeter initialization
-echo "Run jmeter for initialization ${HOST_TYPES[web]}"
-$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$INIT_COCOME" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
+#echo "Run jmeter for initialization ${HOST_TYPES[web]}"
+#$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$INIT_COCOME" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
 
 echo "Press return to continue"
 read
@@ -175,7 +176,12 @@ echo ""
 
 EXP_START_DATE=`date`
 
-$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIVER" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
+if [ "$INTERACTIVE" == "no" ] ; then
+	$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIVER" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
+else
+	echo "Press return to continue"
+	read
+fi
 
 EXP_END_DATE=`date`
 
