@@ -2,16 +2,22 @@
 
 ## Prerequisites
 
-- An installed kubectl program
+- An installed kubectl program (in case kubernetes is to be used)
 - A local copy of glassfish 4.1.1
 - Local docker installation
+- The two CoCoME repositories
+  - https://github.com/research-iobserve/cocome-cloud-jee-platform-migration
+  - https://github.com/research-iobserve/cocome-cloud-jee-service-adapter
+  - Note:  Presently please use the scalability-usability-1 branch for the proper setup
+- A local kieker-1.12.zip or kieker-1.13-SNAPSHOT.zip in extracted form (for experiment-execution.sh only)
 - JMeter 3.0
   Note: The loaddriver models for jmeter MUST use the property
         frontendIP to set the IP address of the frontend.
 - The TCP endpoint for Kieker TCP-probes from 
   `iobserve-analysis/collector`.
   - To get this collector, execute `gradle build` in 
-    `iobserve-analysis`.
+    `iobserve-analysis`. Please follow compilation instructions of the iobserve analysis project.
+    Note: Presently please use the scalability-usability-1 branch for the proper collector.
   - After the build go to the `experiment-execution` directory.
   - Unpack the distribution archive with
     `tar -xvpf ../iobserve-analysis/collector/build/distributions/collector-0.0.2-SNAPSHOT.tar`
@@ -44,6 +50,9 @@ c) Change to `cocome-postgres`
 d) Run `docker build -t cocome-postgres .`
 
 ## Uploading images to private repository
+
+Note: You can skip this task, in case you are using a local docker setup.
+In that case DOCKER_REPOSITORY in `global-config.rc` must be set to `""`
 
 a) Collect the server certs from your private docker repository server
 b) Create a local directory for the certs (you need root privileges)
@@ -121,4 +130,22 @@ deployments and replicators present, you can start the experiment.
 
 ## The experiment compiles
 
+## Trouble Shooting
 
+The scripts are designed to detect many issues automatically, but we did not think of every
+potential error and not every mis-configuration can be detected.
+
+### Docker errors
+`Starting services ...
+/usr/bin/docker: Error parsing reference: "blade1.se.internal:5000//reiner/glassfish" is not a valid repository/tag.
+See '/usr/bin/docker run --help'.
+/usr/bin/docker: "inspect" requires a minimum of 1 argument.
+See '/usr/bin/docker inspect --help'.
+
+Usage:	docker inspect [OPTIONS] CONTAINER|IMAGE|TASK [CONTAINER|IMAGE|TASK...]`
+
+The availability and correct naming of the two docker images is not checked in advance.
+In case the names are wrong, the docker repository is specified incorrectly or cannot be reached,
+you will get an error from `docker run` and `docker inspect`.
+
+Check the names of the images in the `IMAGE[*]` array.
