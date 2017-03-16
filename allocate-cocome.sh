@@ -52,7 +52,7 @@ if [ "$2" == "start" ] ; then
 	for SERVER in $NODE_TYPES ; do
 		echo "Service $SERVER"
 		if [ "${DOCKER_REPOSITORY}" == "" ] ; then
-			ID=`start_service "$SERVER" "{$IMAGE[$SERVER]}"`
+			ID=`start_service "$SERVER" "${IMAGE[$SERVER]}"`
 		else
 			ID=`start_service "$SERVER" "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"`
 		fi
