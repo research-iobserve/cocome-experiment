@@ -52,11 +52,11 @@ if [ "$2" == "start" ] ; then
 	for SERVER in $NODE_TYPES ; do
 		echo "Service $SERVER"
 		if [ "${DOCKER_REPOSITORY}" == "" ] ; then
-			start_service "$SERVER" "{$IMAGE[$SERVER]}"
+			ID=`start_service "$SERVER" "{$IMAGE[$SERVER]}"`
 		else
-			start_service "$SERVER" "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"
+			ID=`start_service "$SERVER" "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"`
 		fi
-		get_container_ip_address
+		get_container_ip_address $ID
 	done
 
 	# setup build settings

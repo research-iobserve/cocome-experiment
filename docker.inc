@@ -28,7 +28,7 @@ function get_container_ip_address () {
 	IP=""
 
 	while [ "$IP" == "" ] ; do
-		IP=`$DOCKER_CTL inspect $ID | grep IPAddress | tail -1 | awk '{ print $2 }' | sed 's/^\"\(.*\)\",$/\1/g'`
+		IP=`$DOCKER_CTL inspect $1 | grep IPAddress | tail -1 | awk '{ print $2 }' | sed 's/^\"\(.*\)\",$/\1/g'`
 		if [ "$IP" == "" ] ; then
 			sleep 5
 		else
@@ -41,5 +41,6 @@ function get_container_ip_address () {
 function start_service () {
 	ID=`$DOCKER_CTL run -h "$1" --name="$1" -d $2`
 	IDS[$SERVER]=$ID
+	echo $ID
 }
 
