@@ -39,7 +39,7 @@ function get_container_ip_address () {
 
 # start service
 function start_service () {
-	ID=`$DOCKER_CTL run -h $SERVER --name="${SERVER}" -d $1`
+	ID=`$DOCKER_CTL run -h "$1" --name="$1" -d $2`
 	IDS[$SERVER]=$ID
 }
 
