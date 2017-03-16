@@ -9,12 +9,12 @@
   Note: The loaddriver models for jmeter MUST use the property
         frontendIP to set the IP address of the frontend.
 - The TCP endpoint for Kieker TCP-probes from 
-  `iobserve-analysis/org.iobserve.collector`.
+  `iobserve-analysis/collector`.
   - To get this collector, execute `gradle build` in 
     `iobserve-analysis`.
   - After the build go to the `experiment-execution` directory.
   - Unpack the distribution archive with
-    `tar -xvpf ../iobserve-analysis/org.iobserve.collector/build/distributions/org.iobserve.collector-0.0.2-SNAPSHOT.tar`
+    `tar -xvpf ../iobserve-analysis/collector/build/distributions/collector-0.0.2-SNAPSHOT.tar`
     Note, depending on your checkout location you must adapt this path.
   - Check that the `global-config.rc` COLLECTOR is pointing to the
     correct script.
