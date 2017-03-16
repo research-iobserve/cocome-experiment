@@ -74,6 +74,8 @@ check_rec $DEPLOYMENT_SCRIPT "deployment script"
 check_dir $DATA_PATH
 check_dir $OUTPUT_PATH
 check_dir $VISUALIZATION_PATH
+check_dir $LOCATIONS[1]
+check_dir $LOCATIONS[2]
 
 #
 # cleanup function in case the experiment setup fails.
