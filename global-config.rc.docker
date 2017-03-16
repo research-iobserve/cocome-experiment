@@ -36,7 +36,7 @@ DOCKER_SERVER="localhost"
 # docker ctl
 DOCKER_CTL="/usr/bin/docker"
 # docker repository (used by kube and docker)
-DOCKER_REPOSITORY="blade1.se.internal:5000/"
+DOCKER_REPOSITORY="blade1.se.internal:5000"
 
 # node instances
 NODE_TYPES="web registry store enterprise adapter database"
