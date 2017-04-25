@@ -44,10 +44,10 @@ it is preconfigured to be used as database for CoCoME.
 The docker images can be found in the `docker-images` repository.
 Checkout the `docker-images` repository.
 
-a) Change to `cocome-glassfish`
-b) Run `docker build -t reiner/glassfish .`
-c) Change to `cocome-postgres`
-d) Run `docker build -t cocome-postgres .`
+a) Change to `cocome-glassfish` <br />
+b) Run `docker build -t reiner/glassfish .` <br />
+c) Change to `cocome-postgres` <br />
+d) Run `docker build -t cocome-postgres .` <br />
 
 ## Uploading images to private repository
 
@@ -55,20 +55,26 @@ Note: You can skip this task, in case you are using a local docker setup.
 In that case DOCKER_REPOSITORY in `global-config.rc` must be set to `""`
 
 a) Collect the server certs from your private docker repository server
-b) Create a local directory for the certs (you need root privileges)
+
+b) Create a local directory for the certs (you need root privileges)<br />
    `sudo mkdir -p /etc/docker/certs.d/`
-c) Create a directory for the specific docker domain, e.g.,
-   `sudo mkdir -p /etc/docker/certs.d/$REPO_HOST`
+   
+c) Create a directory for the specific docker domain, e.g., <br />
+   `sudo mkdir -p /etc/docker/certs.d/$REPO_HOST` <br />
    Note, the port number is included in the directory name.
-d) Copy the cert to this directory
+   
+d) Copy the cert to this directory <br />
    `sudo cp blade1.se.internal.crt /etc/docker/certs.d/$REPO_HOST/ca.crt`
-e) Restart docker
+   
+e) Restart docker <br />
    `sudo service docker restart`
-f) Tag the image to the private docker repository
-   `docker tag $GLASSFISH_IMAGE $REPO_HOST/$GLASSFISH_IMAGE`
-   `docker tag $POSTGRES_IMAGE $REPO_HOST/$POSTGRES_IMAGE`
-g) Push the images
-   `docker push $REPO_HOST/$GLASSFISH_IMAGE`
+   
+f) Tag the image to the private docker repository <br />
+   `docker tag $GLASSFISH_IMAGE $REPO_HOST/$GLASSFISH_IMAGE` <br />
+   `docker tag $POSTGRES_IMAGE $REPO_HOST/$POSTGRES_IMAGE` 
+   
+g) Push the images <br />
+   `docker push $REPO_HOST/$GLASSFISH_IMAGE` <br />
    `docker push $REPO_HOST/$POSTGRES_IMAGE`
 
 ## Configuring the experiment
