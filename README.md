@@ -68,8 +68,8 @@ f) Tag the image to the private docker repository
    `docker tag $GLASSFISH_IMAGE $REPO_HOST/$GLASSFISH_IMAGE`
    `docker tag $POSTGRES_IMAGE $REPO_HOST/$POSTGRES_IMAGE`
 g) Push the images
-   `docker push $REPO_HOST$GLASSFISH_IMAGE`
-   `docker push $REPO_HOST$POSTGRES_IMAGE`
+   `docker push $REPO_HOST/$GLASSFISH_IMAGE`
+   `docker push $REPO_HOST/$POSTGRES_IMAGE`
 
 ## Configuring the experiment
 
