@@ -35,7 +35,7 @@ This is the host of the private docker repository. It is located on
 Our glassfish image is labeled reiner/glassfish you may choose another
 label for your setup.
 
-`POSTGRES_IMAGE=postgres-cocome`
+`POSTGRES_IMAGE=cocome-postgres`
 We use as label for the postgresql image the label `postgres-cocome` as
 it is preconfigured to be used as database for CoCoME.
 
@@ -65,8 +65,8 @@ d) Copy the cert to this directory
 e) Restart docker
    `sudo service docker restart`
 f) Tag the image to the private docker repository
-   `docker tag $GLASSFISH_IMAGE $REPO_HOST$GLASSFISH_IMAGE`
-   `docker tag $POSTGRES_IMAGE $REPO_HOST$POSTGRS_IMAGE`
+   `docker tag $GLASSFISH_IMAGE $REPO_HOST/$GLASSFISH_IMAGE`
+   `docker tag $POSTGRES_IMAGE $REPO_HOST/$POSTGRES_IMAGE`
 g) Push the images
    `docker push $REPO_HOST$GLASSFISH_IMAGE`
    `docker push $REPO_HOST$POSTGRES_IMAGE`
