@@ -145,7 +145,7 @@ For each container id type:
 `docker inspect CONTAINER_ID | grep IPAddress | tail -1 | awk '{ print $2}' | sed 's/^\"\(.*\)\",$/\1/g'`
 
 Note all these ip addresses. You also may used the `./get-container-ip.sh`
-script (available in the latest master revision).
+script available in `docker-images` repository (master branch).
 
 ## Test whether the database is available
 
