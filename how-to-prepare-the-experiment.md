@@ -239,14 +239,14 @@ Now run the collector with
 
 The output should look like
 
-`Receiver
-SLF4J: Class path contains multiple SLF4J bindings.
-SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/gradle-core-2.13.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/logback-classic-1.1.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-SLF4J: Actual binding is of type [org.gradle.logging.internal.slf4j.OutputEventListenerBackedLoggerContext]
-Configuration complete
-Running analysis`
+`Receiver`
+`SLF4J: Class path contains multiple SLF4J bindings.` <br />
+`SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/gradle-core-2.13.jar!/org/slf4j/impl/StaticLoggerBinder.class]` <br />
+`SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/logback-classic-1.1.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]`<br />
+`SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.`<br />
+`SLF4J: Actual binding is of type [org.gradle.logging.internal.slf4j.OutputEventListenerBackedLoggerContext]`
+`Configuration complete`<br />
+`Running analysis`
 
 If you look in the `data` directory, you may find a subdirectory with
 a name similar to this example
