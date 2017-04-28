@@ -223,9 +223,9 @@ First go to the experiment root directory.
 
 Now extract the previously build collector with
 
-`tar -xvpf iobserve-analysis/org.iobserve.collector/build/distributions/org.iobserve.collector-0.0.2-SNAPSHOT.tar`
+`tar -xvpf iobserve-analysis/collector/build/distributions/collector-0.0.2-SNAPSHOT.tar`
 
-This creates an directory called `org.iobserve.collector-0.0.2-SNAPSHOT`
+This creates an directory called `collector-0.0.2-SNAPSHOT`
 with a `bin` and `lib` subdirectory.
 
 Before starting the collector, it is recommended to create a data directory.
@@ -235,14 +235,14 @@ This is done as follows:
 
 Now run the collector with
 
-`org.iobserve.collector-0.0.2-SNAPSHOT/bin/org.iobserve.collector -d data -p 9876`
+`collector-0.0.2-SNAPSHOT/bin/collector -d data -p 9876`
 
 The output should look like
 
 `Receiver
 SLF4J: Class path contains multiple SLF4J bindings.
-SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/org.iobserve.collector-0.0.2-SNAPSHOT/lib/gradle-core-2.13.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/org.iobserve.collector-0.0.2-SNAPSHOT/lib/logback-classic-1.1.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/gradle-core-2.13.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/reiner/Projects/iObserve/collector-0.0.2-SNAPSHOT/lib/logback-classic-1.1.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.gradle.logging.internal.slf4j.OutputEventListenerBackedLoggerContext]
 Configuration complete
