@@ -272,12 +272,12 @@ to provide it over and over again.
 Assuming `172.17.0.2` is the service-adapter node and `172.17.0.7` is
 the database node, type
 
-`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile \ <br />
-	--interactive=false \ <br />
-	create-jdbc-connection-pool \ <br />
-	--datasourceclassname org.postgresql.ds.PGSimpleDataSource \ <br />
-	--restype javax.sql.DataSource \ <br />
- 	--property user=cocome:password=dbuser:servername=172.17.0.7:databasename=cocomedb PostgresPool`
+`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `	--interactive=false \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `	create-jdbc-connection-pool \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `	--datasourceclassname org.postgresql.ds.PGSimpleDataSource \ `<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `	--restype javax.sql.DataSource \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `	--property user=cocome:password=dbuser:servername=172.17.0.7:databasename=cocomedb PostgresPool`
 
 This should create a connection pool for the postgres database on the
 adapter node. It should state success with:
