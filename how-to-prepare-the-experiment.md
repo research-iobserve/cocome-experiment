@@ -282,14 +282,14 @@ the database node, type
 This should create a connection pool for the postgres database on the
 adapter node. It should state success with:
 
-JDBC connection pool PostgresPool created successfully.
-Command create-jdbc-connection-pool executed successfully.
+`JDBC connection pool PostgresPool created successfully.` <br />
+`Command create-jdbc-connection-pool executed successfully.` <br />
 
 Now type to create the necessary resource
 
-`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile \
-	--interactive=false \
-	create-jdbc-resource --connectionpoolid PostgresPool jdbc/CoCoMEDB`
+`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	`--interactive=false \ ` <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	`create-jdbc-resource --connectionpoolid PostgresPool jdbc/CoCoMEDB`
 
 This should report
 
