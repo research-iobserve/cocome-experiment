@@ -293,8 +293,8 @@ Now type to create the necessary resource
 
 This should report
 
-JDBC resource jdbc/CoCoMEDB created successfully.
-Command create-jdbc-resource executed successfully.
+`JDBC resource jdbc/CoCoMEDB created successfully.` <br />
+`Command create-jdbc-resource executed successfully.` <br />
 
 'Note:' It is very helpful to script these tasks, as they have to be done
 over and over againg.
@@ -306,12 +306,12 @@ case you have to adjust the names accordingly.
 Now deploy the ear and war images as follows. Note the given IP addresses
 are only examples.
 
-`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile --interactive=false deploy service-adapter/service-adapter-ear/target/service-adapter-ear-1.1.ear`
+`glassfish4/glassfish/bin/asadmin --host 172.17.0.2 -p 4848 --user admin -W pwfile --interactive=false deploy cocome-cloud-jee-service-adapter/service-adapter-ear/target/service-adapter-ear-1.1.ear`
 
 Success is indicated with:
 
-Application deployed with name service-adapter-ear-1.1.
-Command deploy executed successfully.
+`Application deployed with name service-adapter-ear-1.1.` <br />
+`Command deploy executed successfully.`
 
 The next part is the registry:
 
@@ -319,8 +319,8 @@ The next part is the registry:
 
 Success is indicated with:
 
-Application deployed with name cloud-registry-service-1.1.
-Command deploy executed successfully.
+`Application deployed with name cloud-registry-service-1.1.` <br / >
+`Command deploy executed successfully.`
 
 Deploy the store service:
  
@@ -328,8 +328,8 @@ Deploy the store service:
 
 Success is indicated with:
 
-Application deployed with name store-logic-ear-1.1.
-Command deploy executed successfully.
+`Application deployed with name store-logic-ear-1.1.` <br / >
+`Command deploy executed successfully.`
 
 Deploy the enterprise service:
 
@@ -337,8 +337,8 @@ Deploy the enterprise service:
 
 Success is indicated with:
 
-Application deployed with name enterprise-logic-ear-1.1.
-Command deploy executed successfully.
+`Application deployed with name enterprise-logic-ear-1.1.` <br />
+`Command deploy executed successfully.`
 
 Deploy the web frontend:
 
@@ -346,8 +346,8 @@ Deploy the web frontend:
 
 Success is indicated with:
 
-Application deployed with name cloud-web-frontend-1.1.
-Command deploy executed successfully.
+`Application deployed with name cloud-web-frontend-1.1.` <br />
+`Command deploy executed successfully.`
 
 'Note:' It is recommended, if this is your first deployment to check if
 everything is fine by entering every glassfish instance via its web
