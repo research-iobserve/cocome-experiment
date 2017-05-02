@@ -358,12 +358,13 @@ interface.
 In the above example configuration, the web frontend is deployed on 
 host `172.17.0.3`. So now you can access the web frontend respectively with
 
-`http://172.17.0.3:8080/cloud-web-frontend/`
+`http://172.17.0.3:8080/cloud-web-frontend/` <br />
 `http://172.17.0.3:8080/cloud-web-frontend-1.1/`
 
 or
-`http://172.17.0.3:8181/cloud-web-frontend/`
-`http://172.17.0.3:8181/cloud-web-frontend-1.1/`
+
+`https://172.17.0.3:8181/cloud-web-frontend/` <br />
+`https://172.17.0.3:8181/cloud-web-frontend-1.1/`
 
 Valid logins are 'cashier'/'cashier' and 'admin'/'admin'.
 
