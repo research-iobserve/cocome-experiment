@@ -267,7 +267,7 @@ unpacked the glassfish folder there.
 Create a password file for the glassfish asadmin tool otherwise you have
 to provide it over and over again.
 
-echo "AS_ADMIN_PASSWORD=admin" > pwfile
+`echo "AS_ADMIN_PASSWORD=admin" > pwfile`
 
 Assuming `172.17.0.2` is the service-adapter node and `172.17.0.7` is
 the database node, type
