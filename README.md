@@ -93,7 +93,7 @@ perform operations by hand, where you run the collector program.
 
 Open the propertie file <br />
 `vi kieker.monitoring.properties` <br />
-Please edit the line <br / >
+Please edit the line <br />
 `kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=192.168.48.222` <br />
 according to your setup.
 
