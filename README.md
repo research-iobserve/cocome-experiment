@@ -94,8 +94,12 @@ perform operations by hand, where you run the collector program.
 Open the propertie file <br />
 `vi kieker.monitoring.properties` <br />
 Please edit the line <br />
-`kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=192.168.48.222` <br />
-according to your setup.
+`kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=172.17.0.1` <br />
+according to your setup. <br />
+If you use the default configuration of docker, while running all docker container on the same host, in most cases
+`172.17.0.1` should be a god value for the IP adress.
+By default the [`bridge` network `docker0`](https://docs.docker.com/engine/userguide/networking/#bridge-networks) is used which runs in the subnet `172.17.0.0/16`.
+The host is adressed by `172.17.0.1`.
 
 **Note:** In case you changed the port for the collector, you must
 change the port property as well.
