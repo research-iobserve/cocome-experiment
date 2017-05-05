@@ -91,8 +91,10 @@ another IP address or hostname. The address or hostname must be the host
 where you execute the `execute-experiment.sh` script or in case you
 perform operations by hand, where you run the collector program.
 
-Please edit the line
-`kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=192.168.48.222`
+Open the propertie file <br />
+`vi kieker.monitoring.properties` <br />
+Please edit the line <br / >
+`kieker.monitoring.writer.tcp.SingleSocketTcpWriter.hostname=192.168.48.222` <br />
 according to your setup.
 
 **Note:** In case you changed the port for the collector, you must
