@@ -159,18 +159,14 @@ export COLLECTOR_PID=$!
 sleep 15
 
 # deploy all services
-if ! $DEPLOYMENT_SCRIPT deploy ; then 
+if $DEPLOYMENT_SCRIPT deploy ; then 
+	echo "Press return to continue"
+	read
+else
 	echo "Press return to trigger cleanup and exit"
 	read
 	cleanup
 fi
-
-# run jmeter initialization
-#echo "Run jmeter for initialization ${HOST_TYPES[web]}"
-#$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$INIT_COCOME" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
-
-echo "Press return to continue"
-read
 
 #### run experiment
 echo ""
