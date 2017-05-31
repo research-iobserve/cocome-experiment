@@ -103,6 +103,8 @@ DEPENDS_ON[web]=""
 DEPENDS_ON[adapter]=""
 
 # container location and revision setup
+declare -A LOCATIONS
+
 LOCATIONS[1]="../platform-migration/cocome-maven-project"
 LOCATIONS[2]="../service-adapter"
 
@@ -111,6 +113,12 @@ REVISION="1.1"
 # data collector
 COLLECTOR="$BASE/collector-0.0.2-SNAPSHOT/bin/collector"
 COLLECTOR_PORT=9876
+
+LOCAL_IP="192.168.48.222"
+
+# general tools
+IFCONFIG="/sbin/ifconfig"
+SED="/bin/sed"
 
 # end
 

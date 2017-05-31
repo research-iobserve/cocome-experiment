@@ -48,7 +48,7 @@ if [ "$2" != "" ] ; then
 		exit 1
 	fi
 else
-	echo "Missing parameter: jmeter file running interactive"
+	echo "Missing parameter: jmeter file, running interactive"
 	INTERACTIVE="yes"
 fi
 
@@ -74,8 +74,8 @@ check_rec $DEPLOYMENT_SCRIPT "deployment script"
 check_dir $DATA_PATH
 check_dir $OUTPUT_PATH
 check_dir $VISUALIZATION_PATH
-check_dir $LOCATIONS[1]
-check_dir $LOCATIONS[2]
+check_dir ${LOCATIONS[1]}
+check_dir ${LOCATIONS[2]}
 
 #
 # cleanup function in case the experiment setup fails.
@@ -159,7 +159,11 @@ export COLLECTOR_PID=$!
 sleep 15
 
 # deploy all services
-$DEPLOYMENT_SCRIPT deploy || cleanup $?
+if ! $DEPLOYMENT_SCRIPT deploy ; then 
+	echo "Press return to trigger cleanup and exit"
+	read
+	cleanup
+fi
 
 # run jmeter initialization
 #echo "Run jmeter for initialization ${HOST_TYPES[web]}"
@@ -181,7 +185,8 @@ EXP_START_DATE=`date`
 if [ "$INTERACTIVE" == "no" ] ; then
 	$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIVER" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
 else
-	echo "Press return to continue"
+	echo "Navigate the CoCoME software for your evaluation."
+	echo "When finished, press return to continue"
 	read
 fi
 

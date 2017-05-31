@@ -40,6 +40,12 @@ check_file $BUILD_SETTINGS w "build settings"
 check $LOCAL_GLASSFISH_ADMIN "local glassfish installation"
 check_file $LOCAL_GLASSFISH_PW_FILE r "glassfish password file"
 check_file "$1.inc" r "specific container control routines"
+check $IFCONFIG "ifconfig"
+check $SED "sed"
+
+#
+# get local IP address
+export COLLECTOR_IP=`$IFCONFIG docker0 | $SED -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
 
 . $BINDIR/$1.inc
 
@@ -52,9 +58,9 @@ if [ "$2" == "start" ] ; then
 	for SERVER in $NODE_TYPES ; do
 		echo "Service $SERVER"
 		if [ "${DOCKER_REPOSITORY}" == "" ] ; then
-			ID=`start_service "$SERVER" "${IMAGE[$SERVER]}"`
+			ID=`start_service "$SERVER" "${IMAGE[$SERVER]}" $COLLECTOR_IP`
 		else
-			ID=`start_service "$SERVER" "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}"`
+			ID=`start_service "$SERVER" "${DOCKER_REPOSITORY}/${IMAGE[$SERVER]}" $COLLECTOR_IP`
 		fi
 		get_container_ip_address $ID
 	done
@@ -110,7 +116,7 @@ if [ "$2" == "start" ] ; then
 	for LOCATION in ${LOCATIONS[@]} ; do
 		echo "Build $LOCATION"
 		cd "$BINDIR/$LOCATION/"
-		mvn -s "$BUILD_SETTINGS" clean compile package
+		mvn -s "$BUILD_SETTINGS" clean compile package >& /dev/null
 	done
 
 	echo "Configure deployment configuration"
@@ -136,7 +142,7 @@ elif [ "$2" == "check" ] ; then
 elif [ "$2" == "status" ] ; then
 	echo "$0 status"
 else
-	echo "$0 <start|stop|check|status> <kube|docker>"
+	echo "$0 <kube|docker> <start|stop|check|status>"
 fi
 
 # end

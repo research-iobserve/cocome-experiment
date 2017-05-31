@@ -20,6 +20,7 @@ fi
 
 check $LOCAL_GLASSFISH_ADMIN "local glassfish admin"
 
+
 # parsing parameter
 if [ "$1" == "" ] ; then
 	echo "Usage: $0 <deploy|undeploy|redeploy|status|check> [container]"

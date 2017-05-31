@@ -38,8 +38,11 @@ function get_container_ip_address () {
 }
 
 # start service
+# $1 = host
+# $2 = image
+# $3ff = parameter
 function start_service () {
-	ID=`$DOCKER_CTL run -h "$1" --name="$1" -d $2`
+	ID=`$DOCKER_CTL run -h "$1" --name="$1" -d $2 $3`
 	IDS[$SERVER]=$ID
 	echo $ID
 }
