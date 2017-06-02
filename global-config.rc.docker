@@ -1,17 +1,13 @@
 # experiment global configuration
 
-#base directory of iObserve
-export IOBSERVE="$HOME/Projects/iObserve"
-
 # base directory where all projects parts are located
-export BASE="$IOBSERVE/experiment-execution"
-
+export BASE="$HOME/Projects/iObserve/experiment-execution"
 
 # local glassfish installation location
-export LOCAL_GLASSFISH_ADMIN="$IOBSERVE/glassfish4.1.1/glassfish/bin/asadmin"
+export LOCAL_GLASSFISH_ADMIN="$HOME/glassfish4/glassfish/bin/asadmin"
 
 # jmeter executable
-export JMETER="$IOBSERVE/apache-jmeter-3.0/bin/jmeter"
+export JMETER="$BASE/apache-jmeter-3.0/bin/jmeter"
 
 # postgres client
 export PSQL="/usr/bin/psql"
@@ -20,7 +16,7 @@ export PSQL="/usr/bin/psql"
 export DOT="/usr/bin/dot"
 
 # kieker path
-export KIEKER_PATH="$IOBSERVE/kieker-1.13-SNAPSHOT/bin"
+export KIEKER_PATH="$BASE/kieker-1.12/bin"
 # kieker trace analysis tool
 export KIEKER_TRACE_ANALYSIS="$KIEKER_PATH/trace-analysis.sh"
 # kieker pic to dot tools
@@ -112,13 +108,13 @@ DEPENDS_ON[adapter]=""
 # container location and revision setup
 declare -A LOCATIONS
 
-LOCATIONS[1]="../cocome-cloud-jee-platform-migration/cocome-maven-project"
-LOCATIONS[2]="../cocome-cloud-jee-service-adapter"
+LOCATIONS[1]="../platform-migration/cocome-maven-project"
+LOCATIONS[2]="../service-adapter"
 
 REVISION="1.1"
 
 # data collector
-COLLECTOR="$IOBSERVE/collector-0.0.2-SNAPSHOT/bin/collector"
+COLLECTOR="$BASE/collector-0.0.2-SNAPSHOT/bin/collector"
 COLLECTOR_PORT=9876
 
 LOCAL_IP="192.168.48.222"

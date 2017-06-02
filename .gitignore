@@ -1,3 +1,4 @@
+global-config.rc
 apache-jmeter-*/**
 analysis/**
 data/**
