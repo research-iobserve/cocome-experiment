@@ -48,7 +48,7 @@ if [ "$2" != "" ] ; then
 		exit 1
 	fi
 else
-	echo "Missing parameter: jmeter file, running interactive"
+	echo "Missing parameter: jmeter file running interactive"
 	INTERACTIVE="yes"
 fi
 
@@ -60,7 +60,10 @@ echo ""
 #
 # test configuration parameters
 check_dir $BASE "base directory"
-check_file $INIT_COCOME r "CoCoME initialization"
+if [ "$INTERACTIVE" == "no" ] ; then 
+	check_file $INIT_COCOME r "CoCoME initialization"
+fi
+check $DOT "graphviz"
 
 check $JMETER "jmeter"
 check $PSQL "psql client"
@@ -159,14 +162,14 @@ export COLLECTOR_PID=$!
 sleep 15
 
 # deploy all services
-if $DEPLOYMENT_SCRIPT deploy ; then 
-	echo "Press return to continue"
-	read
-else
-	echo "Press return to trigger cleanup and exit"
-	read
-	cleanup
-fi
+$DEPLOYMENT_SCRIPT deploy || cleanup $?
+
+# run jmeter initialization
+#echo "Run jmeter for initialization ${HOST_TYPES[web]}"
+#$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$INIT_COCOME" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
+
+echo "Press return to continue"
+read
 
 #### run experiment
 echo ""
@@ -181,8 +184,7 @@ EXP_START_DATE=`date`
 if [ "$INTERACTIVE" == "no" ] ; then
 	$JMETER -p "$BINDIR/jmeter.properties" -l "$BINDIR/results.csv" -n -t "$LOADDRIVER" -JfrontendIP="${HOST_TYPES[web]}" || cleanup $?
 else
-	echo "Navigate the CoCoME software for your evaluation."
-	echo "When finished, press return to continue"
+	echo "Press return to continue"
 	read
 fi
 
