@@ -1,4 +1,6 @@
 global-config.rc
+global-config.rc.docker
+global-config.rc.kubernetes
 apache-jmeter-*/**
 analysis/**
 data/**
